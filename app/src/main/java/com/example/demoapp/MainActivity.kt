@@ -10,74 +10,135 @@
     import androidx.navigation.ui.NavigationUI
     import com.example.demoapp.utils.SessionManager
     import com.google.android.material.navigation.NavigationView
+    import androidx.appcompat.widget.Toolbar
+    import androidx.appcompat.app.ActionBarDrawerToggle
+    import androidx.navigation.NavController
+    import androidx.core.view.GravityCompat
+    import androidx.appcompat.R.drawable
+
+
 
     class MainActivity : AppCompatActivity() {
+
+        private lateinit var toolbar: Toolbar
+        private lateinit var drawerLayout: DrawerLayout
+        private lateinit var toggle: ActionBarDrawerToggle
+
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
 
-            val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-            setSupportActionBar(toolbar)
-            toolbar.setTitleTextColor(android.graphics.Color.WHITE)
-            toolbar.navigationIcon?.setTint(android.graphics.Color.WHITE)
-
             val isLoggedIn = SessionManager.isLoggedIn(this)
-
-            // Si no está logueado, navega a LoginActivity y termina MainActivity
-            if (isLoggedIn){
-
-            }
-            else {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-                return
-            }
-
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
             val navController = navHostFragment?.let { findNavController(it) }
             val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
             val navigationView = findViewById<NavigationView>(R.id.navigation_view)
+            toolbar = findViewById(R.id.toolbar)
 
-            // Configurar ActionBarDrawerToggle
-            val toggle = androidx.appcompat.app.ActionBarDrawerToggle(
+            //Configurar Toolbar
+            configToolbar(toolbar)
+
+            //Configurar Drawer Menu
+            configDrawerMenu(toolbar, drawerLayout, navigationView)
+
+            //Configurar Navigation View
+            configNavigationView(navigationView, navController, drawerLayout, isLoggedIn)
+
+        }
+
+        private fun configToolbar(toolbar: Toolbar?) {
+            setSupportActionBar(toolbar)
+            toolbar?.setTitleTextColor(android.graphics.Color.WHITE)
+            toolbar?.navigationIcon?.setTint(android.graphics.Color.WHITE)
+
+        }
+
+        private fun configDrawerMenu(
+            toolbar: Toolbar?,
+            drawerLayout: DrawerLayout?,
+            navigationView: NavigationView?
+        ) {
+
+            toggle = ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
             )
-            drawerLayout.addDrawerListener(toggle)
+            drawerLayout?.addDrawerListener(toggle)
             toggle.syncState()
+
             // Cambia el color del icono del menú de hamburguesa a blanco
             toggle.drawerArrowDrawable.color = android.graphics.Color.WHITE
 
-                // Mostrar nombre de usuario en el Drawer
-            val headerView = navigationView.getHeaderView(0)
-            val tvHeaderTitle = headerView.findViewById<TextView>(R.id.tvHeaderTitle)
+            // Mostrar nombre de usuario en el Drawer
+            val headerView = navigationView?.getHeaderView(0)
+            val tvHeaderTitle = headerView?.findViewById<TextView>(R.id.tvHeaderTitle)
             val username = SessionManager.getUsername(this) ?: "Usuario"
-            tvHeaderTitle.text = username
+            tvHeaderTitle?.text = username
 
-            navController?.let {
-                    NavigationUI.setupWithNavController(navigationView, it)
-                    if (isLoggedIn) {
-                        it.navigate(R.id.pokedexFragment)
+        }
+
+        private fun configNavigationView(navigationView: NavigationView?, navController: NavController?, drawerLayout: DrawerLayout?, loggedIn: Boolean) {
+
+            // Configurar el título de la ActionBar y el comportamiento del Drawer según el fragmento actual
+            navController?.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.pokemonDetailFragment -> {
+                        supportActionBar?.title = "Detalle de pokemon"
+                        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                        toggle.isDrawerIndicatorEnabled = false
+                        toolbar.setNavigationIcon(drawable.abc_ic_ab_back_material)
+                        toolbar.setNavigationOnClickListener {
+                            navController.navigateUp()
+                        }
+
+                        toolbar.navigationIcon?.setTint(android.graphics.Color.WHITE)
+                    }
+                    else -> {
+                        supportActionBar?.title = "Pokemon App"
+                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                        toggle.isDrawerIndicatorEnabled = true
+                        toggle.syncState()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout?.openDrawer(GravityCompat.START)
+                        }
                     }
                 }
+            }
 
-            navigationView.setNavigationItemSelectedListener { menuItem ->
+            navController?.let {
+                if (navigationView != null) {
+                    NavigationUI.setupWithNavController(navigationView,navController )
+                }
+                if (loggedIn) {
+                    it.navigate(R.id.pokedexFragment)
+                }
+            }
+
+            navigationView?.setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.nav_pokedex -> {
+                        // Navegar al fragmento de Pokedex
                         navController?.navigate(R.id.pokedexFragment)
-                        drawerLayout.closeDrawers()
+                        drawerLayout?.closeDrawers()
                         true
                     }
+
                     R.id.nav_logout -> {
 
-                        // Limpiar sesión y navegar a LoginActivity
+                        // Mostrar diálogo de confirmación antes de cerrar sesión
                         showLogoutConfirmation()
                         true
                     }
+
                     else -> false
                 }
             }
+
+
         }
 
         private fun showLogoutConfirmation() {

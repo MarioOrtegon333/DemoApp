@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.DemoApp" parent="Theme.Material3.DayNight.NoActionBar">
     <item name="colorPrimary">@color/blue_macropay_ligth</item>
-    <item name="colorPrimaryVariant">@color/pokemon_primary</item>
+    <item name="colorPrimaryVariant">@color/blue_macropay_ligth</item>
     <item name="colorOnPrimary">@color/white</item>
     </style>
 
