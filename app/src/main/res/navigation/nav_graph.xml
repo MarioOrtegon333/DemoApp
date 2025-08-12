@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.pokedex.ui.LoginFragment"
+        android:label="Login" />
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.pokedex.ui.MainFragment"
+        android:label="Principal" />
+
+    <fragment
+        android:id="@+id/pokedexFragment"
+        android:name="com.pokedex.ui.PokedexFragment"
+        android:label="Pokedex" />
+
+    <fragment
+        android:id="@+id/pokemonDetailFragment"
+        android:name="com.pokedex.ui.PokemonDetailFragment"
+        android:label="Detalle Pokémon">
+        <argument
+            android:name="pokemonId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>
