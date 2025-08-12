@@ -44,6 +44,25 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    lint {
+        disable.add("NullSafeMutableLiveData")
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("my-release-key.jks")
+            storePassword = "pokemonapp"
+            keyAlias = "demoapp"
+            keyPassword = "pokemonapp"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            // ...otros settings...
+        }
+    }
+
 }
 //TODO(CAMBIAR IMPLEMENTACIONES A LA ESTRUCTURA de libs)
 dependencies {
