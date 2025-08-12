@@ -7,15 +7,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.demoapp.presentation.ui.login.LoginViewModel
 import com.example.demoapp.utils.SessionManager
+import com.example.demoapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: com.example.demoapp.databinding.ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by lazy { LoginViewModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = com.example.demoapp.databinding.ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -24,6 +25,13 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        validateIsLogged()
+        initializeViews()
+        observeViewModel()
+    }
+
+    //Se valida que se este loguead y redirige directo al listado
+    private fun validateIsLogged() {
         val isLoggedIn = SessionManager.isLoggedIn(this)
 
         if (isLoggedIn) {
@@ -31,21 +39,35 @@ class LoginActivity : AppCompatActivity() {
             finish()
             return
         }
+    }
 
-        binding.btnLogin.setOnClickListener {
-            val username = binding.etUsername.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
-            viewModel.login(username, password)
-        }
+    //Observers
+    private fun observeViewModel() {
 
-        viewModel.loginResult.observe(this) { success ->
+        //Observer del autenticacion de Firebase
+        viewModel.loginResultAuth.observe(this) { success ->
             if (success) {
                 SessionManager.saveSession(this, binding.etUsername.text.toString())
                 startActivity(android.content.Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                android.widget.Toast.makeText(this, "Usuario o contraseña incorrectos", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(
+                    this,
+                    getString(R.string.login_message_error),
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
             }
+        }
+    }
+
+    //Eventos del Activity
+    private fun initializeViews() {
+
+        //Evento del boton de login
+        binding.btnLogin.setOnClickListener {
+            val username = binding.etUsername.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            viewModel.loginAuth(username, password)
         }
     }
 }

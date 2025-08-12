@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapp.R
 import com.example.demoapp.databinding.FragmentPokedexBinding
 import com.example.demoapp.presentation.ui.pokemonlist.adapter.PokemonAdapter
+import com.example.demoapp.utils.SessionManager
 
 
 class PokedexFragment : Fragment() {
@@ -62,6 +63,24 @@ class PokedexFragment : Fragment() {
         }
     }
 
+    private fun initializeViews() {
+
+        // SwipeRefreshLayout: refresca el listado
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadPokemons()
+        }
+
+        //Boton siguiente
+        binding.btnNext.setOnClickListener {
+            viewModel.nextPage()
+        }
+
+        //Boton anterior
+        binding.btnPrevious.setOnClickListener {
+            viewModel.previousPage()
+        }
+    }
+
     private fun observeViewModel() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -86,34 +105,18 @@ class PokedexFragment : Fragment() {
 
     }
 
-    private fun initializeViews() {
-
-        // SwipeRefreshLayout: refresca el listado
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.loadPokemons()
-        }
-
-        binding.btnNext.setOnClickListener {
-            viewModel.nextPage()
-        }
-        binding.btnPrevious.setOnClickListener {
-            viewModel.previousPage()
-        }
-
-    }
-
     private fun showLogoutDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Cerrar sesión")
-            .setMessage("¿Seguro que deseas cerrar sesión?")
-            .setPositiveButton("Sí") { _, _ ->
-                com.example.demoapp.utils.SessionManager.clearSession(requireContext())
+        builder.setTitle(getString(R.string.dialog_title_close_session))
+            .setMessage(getString(R.string.dialog_message_close_session))
+            .setPositiveButton(getString(R.string.text_yes)) { _, _ ->
+                SessionManager.clearSession(requireContext())
                 // Lanzar LoginActivity y terminar la actividad actual
                 val intent = android.content.Intent(requireContext(), com.example.demoapp.LoginActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
             }
-            .setNegativeButton("No") { _, _ -> backPressedCount = 0 }
+            .setNegativeButton(getString(R.string.text_no)) { _, _ -> backPressedCount = 0 }
             .show()
     }
 

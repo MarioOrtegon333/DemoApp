@@ -2,4 +2,13 @@
     <string name="app_name">Pokemon App</string>
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="detail_title">Detalle de Pokémon</string>
+    <string name="pokedex_title">Pokédex</string>
+    <string name="login_message_error">Usuario o contraseña incorrectos</string>
+    <string name="dialog_title_close_session">Cerrar sesión</string>
+    <string name="dialog_message_close_session">¿Seguro que deseas cerrar sesión?</string>
+    <string name="text_yes">Sí</string>
+    <string name="text_no">No</string>
+
+
 </resources>

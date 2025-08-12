@@ -53,14 +53,20 @@ class PokemonDetailFragment : Fragment() {
 
     // Renderizar detalles del Pokémon
     private fun renderDetails(pokemonDetail: PokemonDetail) {
+        val heightMts = pokemonDetail.height / 10.0
+        val weightKg = pokemonDetail.weight / 10.0
+        val tvPokemonName = binding.tvPokemonName
+        val tvPokemonNumber = binding.tvPokemonNumber
+        val tvPokemonHeight = binding.tvPokemonHeight
+        val tvPokemonWeight = binding.tvPokemonWeight
+        val tvPokemonAbilities = binding.tvPokemonAbilities
 
-        binding.tvPokemonName.text = pokemonDetail.name
-        binding.tvPokemonNumber.text = "#%03d".format(pokemonDetail.id)
-        val alturaMts = pokemonDetail.height / 10.0
-        val pesoKg = pokemonDetail.weight / 10.0
-        binding.tvPokemonHeight.text = "%.1f mts".format(alturaMts)
-        binding.tvPokemonWeight.text = "%.1f kg".format(pesoKg)
-        binding.tvPokemonAbilities.text = "${pokemonDetail.abilities.joinToString(", ")}"
+
+        tvPokemonName.text = pokemonDetail.name
+        tvPokemonNumber.text = "#%03d".format(pokemonDetail.id)
+        tvPokemonHeight.text = "%.1f mts".format(heightMts)
+        tvPokemonWeight.text = "%.1f kg".format(weightKg)
+        tvPokemonAbilities.text = "${pokemonDetail.abilities.joinToString(", ")}"
         Picasso.get().load(pokemonDetail.imageUrl).into(binding.ivPokemonImage)
 
     }
@@ -68,13 +74,22 @@ class PokemonDetailFragment : Fragment() {
     // Renderizar estadísticas del Pokémon
     private fun renderStats(pokemonDetail: PokemonDetail) {
 
+
+
         val statMap = pokemonDetail.stats.associateBy { statItem -> statItem.stat.name }
-        binding.tvStatHp.text = "${statMap["hp"]?.base_stat ?: "-"}"
-        binding.tvStatAttack.text = "${statMap["attack"]?.base_stat ?: "-"}"
-        binding.tvStatDefense.text = "${statMap["defense"]?.base_stat ?: "-"}"
-        binding.tvStatSpAttack.text = "${statMap["special-attack"]?.base_stat ?: "-"}"
-        binding.tvStatSpDefense.text = "${statMap["special-defense"]?.base_stat ?: "-"}"
-        binding.tvStatSpeed.text = "${statMap["speed"]?.base_stat ?: "-"}"
+        val tvStatHp = binding.tvStatHp
+        val tvStatAttack = binding.tvStatAttack
+        val tvStatDefense = binding.tvStatDefense
+        val tvStatSpAttack = binding.tvStatSpAttack
+        val tvStatSpeed = binding.tvStatSpeed
+        val tvStatSpDefense = binding.tvStatSpDefense
+
+        tvStatHp.text = "${statMap["hp"]?.base_stat ?: "-"}"
+        tvStatAttack.text = "${statMap["attack"]?.base_stat ?: "-"}"
+        tvStatDefense.text = "${statMap["defense"]?.base_stat ?: "-"}"
+        tvStatSpAttack.text = "${statMap["special-attack"]?.base_stat ?: "-"}"
+        tvStatSpDefense.text = "${statMap["special-defense"]?.base_stat ?: "-"}"
+        tvStatSpeed.text = "${statMap["speed"]?.base_stat ?: "-"}"
 
     }
 
@@ -104,7 +119,6 @@ class PokemonDetailFragment : Fragment() {
 
     // Ocultar o mostrar detalles del Pokémon
     private fun hideShowDetails(visible: Boolean) {
-
         binding.ivPokemonImage.visibility = if (visible) View.VISIBLE else View.GONE
         binding.tvPokemonName.visibility = if (visible) View.VISIBLE else View.GONE
         binding.tvPokemonNumber.visibility = if (visible) View.VISIBLE else View.GONE
@@ -138,7 +152,6 @@ class PokemonDetailFragment : Fragment() {
            TypeColorEnum.UNKNOWN.resId
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

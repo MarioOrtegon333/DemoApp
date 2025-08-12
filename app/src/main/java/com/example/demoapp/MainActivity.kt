@@ -16,12 +16,9 @@
     import androidx.core.view.GravityCompat
     import androidx.appcompat.R.drawable
 
-
-
     class MainActivity : AppCompatActivity() {
 
         private lateinit var toolbar: Toolbar
-        private lateinit var drawerLayout: DrawerLayout
         private lateinit var toggle: ActionBarDrawerToggle
 
 
@@ -85,7 +82,7 @@
             navController?.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.pokemonDetailFragment -> {
-                        supportActionBar?.title = "Detalle de pokemon"
+                        supportActionBar?.title = getString(R.string.detail_title)
                         supportActionBar?.setDisplayHomeAsUpEnabled(true)
                         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                         toggle.isDrawerIndicatorEnabled = false
@@ -97,7 +94,7 @@
                         toolbar.navigationIcon?.setTint(android.graphics.Color.WHITE)
                     }
                     else -> {
-                        supportActionBar?.title = "Pokemon App"
+                        supportActionBar?.title = getString(R.string.pokedex_title)
                         supportActionBar?.setDisplayHomeAsUpEnabled(false)
                         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         toggle.isDrawerIndicatorEnabled = true
