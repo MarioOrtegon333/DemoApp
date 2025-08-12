@@ -1,6 +1,7 @@
 package com.example.demoapp.presentation.ui.pokemonlist
 
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,11 +41,28 @@ class PokedexFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        if (!SessionManager.isWelcomeShown(requireContext())) {
+            SessionManager.setWelcomeShown(requireContext())
+            showWelcomeDialog {}
+        }
+
         initializeViews()
         setUpRecyclerView()
         observeViewModel()
-
         viewModel.loadPokemons()
+    }
+
+    private fun showWelcomeDialog(onOk: (() -> Unit)? = null) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("¡Bienvenido a la Pokédex!")
+            .setMessage("Explora todos los Pokémon disponibles. ¡Diviértete!")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                onOk?.invoke()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun setUpRecyclerView() {
@@ -103,6 +121,7 @@ class PokedexFragment : Fragment() {
                 findNavController().navigate(R.id.pokemonDetailFragment, bundle)
             }
             binding.rvPokedex.adapter = adapter
+
         }
 
     }

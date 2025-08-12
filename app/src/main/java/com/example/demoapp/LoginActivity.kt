@@ -1,6 +1,8 @@
 package com.example.demoapp
 
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +12,7 @@ import androidx.activity.viewModels
 import com.example.demoapp.presentation.ui.login.LoginViewModel
 import com.example.demoapp.utils.SessionManager
 import com.example.demoapp.databinding.ActivityLoginBinding
+
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -46,8 +49,10 @@ class LoginActivity : AppCompatActivity() {
 
     //Observers
     private fun observeViewModel() {
-
-        //Observer del autenticacion de Firebase
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressLoaderLogin.visibility = if (isLoading) VISIBLE else GONE
+            binding.btnLogin.visibility =  if (!isLoading) VISIBLE else GONE
+        }
         viewModel.loginResultAuth.observe(this) { success ->
             if (success) {
                 SessionManager.saveSession(this, binding.etUsername.text.toString())

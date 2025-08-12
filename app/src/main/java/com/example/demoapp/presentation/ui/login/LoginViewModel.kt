@@ -13,11 +13,14 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     val loginResultAuth = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
+    val isLoading = MutableLiveData<Boolean>()
 
     fun loginAuth(email: String, password: String) {
+        isLoading.value = true
         loginWithFirebaseUseCase.execute(email, password) { success, error ->
             loginResultAuth.value = success
             errorMessage.value = error
+            isLoading.value = false
         }
     }
 }
