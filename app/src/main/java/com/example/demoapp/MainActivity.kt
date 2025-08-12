@@ -5,6 +5,7 @@
     import android.widget.TextView
     import androidx.appcompat.app.AlertDialog
     import androidx.appcompat.app.AppCompatActivity
+    import dagger.hilt.android.AndroidEntryPoint
     import androidx.drawerlayout.widget.DrawerLayout
     import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
     import androidx.navigation.ui.NavigationUI
@@ -16,6 +17,7 @@
     import androidx.core.view.GravityCompat
     import androidx.appcompat.R.drawable
 
+    @AndroidEntryPoint
     class MainActivity : AppCompatActivity() {
 
         private lateinit var toolbar: Toolbar

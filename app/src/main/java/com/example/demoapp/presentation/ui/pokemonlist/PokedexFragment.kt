@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapp.R
 import com.example.demoapp.databinding.FragmentPokedexBinding
 import com.example.demoapp.presentation.ui.pokemonlist.adapter.PokemonAdapter
+import com.example.demoapp.domain.model.Pokemon
 import com.example.demoapp.utils.SessionManager
 
 
+@AndroidEntryPoint
 class PokedexFragment : Fragment() {
     private var backPressedCount = 0
     private lateinit var recyclerViewPokedex: RecyclerView
@@ -48,7 +51,7 @@ class PokedexFragment : Fragment() {
 
         recyclerViewPokedex = binding.rvPokedex
 
-        adapter = PokemonAdapter(emptyList()) { pokemon : Pokemon ->
+    adapter = PokemonAdapter(emptyList()) { pokemon: Pokemon ->
             val bundle = Bundle().apply {
                 putString("pokemonId", pokemon.id.toString())
                 putBoolean("refresh", true)
@@ -93,13 +96,12 @@ class PokedexFragment : Fragment() {
         }
 
         viewModel.pokemonList.observe(viewLifecycleOwner) { pokemons ->
-            adapter = PokemonAdapter(pokemons) { pokemon : Pokemon ->
+            adapter = PokemonAdapter(pokemons.orEmpty()) { pokemon: Pokemon ->
                 val bundle = Bundle().apply {
                     putString("pokemonId", pokemon.id.toString())
                 }
                 findNavController().navigate(R.id.pokemonDetailFragment, bundle)
             }
-
             binding.rvPokedex.adapter = adapter
         }
 

@@ -1,39 +1,23 @@
 package com.example.demoapp.presentation.ui.login
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
-import com.google.firebase.auth.FirebaseAuth
+import com.example.demoapp.domain.usecase.LoginWithFirebaseUseCase
 
-class LoginViewModel : ViewModel() {
-    private val _loginResult = MutableLiveData<Boolean>()
-    val loginResult: LiveData<Boolean> = _loginResult
-
-    private val auth:FirebaseAuth = FirebaseAuth.getInstance()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginWithFirebaseUseCase: LoginWithFirebaseUseCase
+) : ViewModel() {
     val loginResultAuth = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
 
-
     fun loginAuth(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Inicio de sesión exitoso
-                    loginResultAuth.value = true
-                } else {
-                    // Error en el inicio de sesión
-                    errorMessage.value = task.exception?.message
-                    val error = task.exception?.message
-                    loginResultAuth.value = false
-
-                }
-            }
-    }
-
-
-
-    fun login(username: String, password: String) {
-        // Usuario y contraseña estáticos
-        _loginResult.value = (username == "admin" && password == "admin")
+        loginWithFirebaseUseCase.execute(email, password) { success, error ->
+            loginResultAuth.value = success
+            errorMessage.value = error
+        }
     }
 }

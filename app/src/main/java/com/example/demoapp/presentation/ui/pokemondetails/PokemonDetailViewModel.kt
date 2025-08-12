@@ -4,14 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.demoapp.domain.repository.PokedexRepository
-import com.example.demoapp.data.models.StatsItem
+import com.example.demoapp.domain.usecase.GetPokemonDetailUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import com.example.demoapp.domain.model.PokemonDetail
 import kotlinx.coroutines.launch
 
-class PokemonDetailViewModel : ViewModel() {
-    private val repository = PokedexRepository()
-    private val _pokemonDetail = MutableLiveData<PokemonDetail>()
-    val pokemonDetail: LiveData<PokemonDetail> = _pokemonDetail
+@HiltViewModel
+class PokemonDetailViewModel @Inject constructor(
+    private val getPokemonDetailUseCase: GetPokemonDetailUseCase
+) : ViewModel() {
+    private val _pokemonDetail = MutableLiveData<PokemonDetail?>()
+    val pokemonDetail: LiveData<PokemonDetail?> = _pokemonDetail
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -19,19 +23,7 @@ class PokemonDetailViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val response = repository.getPokemonDetail(id)
-                val artworkUrl = response.sprites.other?.official_artwork?.front_default ?: response.sprites.front_default ?: ""
-                val detail = PokemonDetail(
-                    id = response.id,
-                    name = response.name.capitalize(),
-                    imageUrl = artworkUrl,
-                    types = response.types.map { it.type.name.capitalize() },
-                    height = response.height,
-                    weight = response.weight,
-                    abilities = response.abilities.map { it.ability.name.capitalize() },
-                    stats = response.stats
-
-                )
+                val detail = getPokemonDetailUseCase(id)
                 _pokemonDetail.value = detail
             } catch (e: Exception) {
                 _pokemonDetail.value = null
@@ -42,14 +34,4 @@ class PokemonDetailViewModel : ViewModel() {
     }
 }
 
-// Modelo de datos para el detalle
-data class PokemonDetail(
-    val id: Int,
-    val name: String,
-    val imageUrl: String,
-    val types: List<String>,
-    val height: Int,
-    val weight: Int,
-    val abilities: List<String>,
-    val stats: List<StatsItem> = emptyList()
-)
+// ...existing code...

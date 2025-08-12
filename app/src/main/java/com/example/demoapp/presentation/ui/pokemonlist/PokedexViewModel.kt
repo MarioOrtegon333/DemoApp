@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.demoapp.domain.repository.PokedexRepository
+import com.example.demoapp.domain.usecase.GetPokemonListUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class PokedexViewModel : ViewModel() {
-    private val repository = PokedexRepository()
-    private val _pokemonList = MutableLiveData<List<Pokemon>>()
-    val pokemonList: LiveData<List<Pokemon>> = _pokemonList
+@HiltViewModel
+class PokedexViewModel @Inject constructor(
+    private val getPokemonListUseCase: GetPokemonListUseCase
+) : ViewModel() {
+    private val _pokemonList = MutableLiveData<List<com.example.demoapp.domain.model.Pokemon>?>(null)
+    val pokemonList: LiveData<List<com.example.demoapp.domain.model.Pokemon>?> = _pokemonList
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
     private var offset = 0
@@ -19,19 +23,9 @@ class PokedexViewModel : ViewModel() {
 
     fun loadPokemons() {
         _isLoading.value = true
-
         viewModelScope.launch {
             try {
-                val response = repository.getPokemonList(offset, limit)
-                val pokemons = response.results.mapIndexed { index, result ->
-                    Pokemon(
-                        id = offset + index + 1,
-                        name = result.name.capitalize(),
-                        //imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${offset + index + 1}.png",
-                        imageUrl = "$imageUrl${offset + index + 1}.png",
-                        types = emptyList() // Se llenará en el detalle
-                    )
-                }
+                val pokemons = getPokemonListUseCase(offset, limit)
                 _pokemonList.value = pokemons
             } catch (e: Exception) {
                 _pokemonList.value = emptyList()
@@ -50,10 +44,4 @@ class PokedexViewModel : ViewModel() {
     }
 }
 
-// Modelo de datos básico
-data class Pokemon(
-    val id: Int,
-    val name: String,
-    val imageUrl: String,
-    val types: List<String>
-)
+// ...existing code...

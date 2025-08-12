@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.viewModels
 import com.example.demoapp.databinding.FragmentPokemonDetailBinding
 import com.example.demoapp.utils.TypeColorEnum
 import com.squareup.picasso.Picasso
+import com.example.demoapp.domain.model.PokemonDetail
 
 
+@AndroidEntryPoint
 class PokemonDetailFragment : Fragment() {
     private var _binding: FragmentPokemonDetailBinding? = null
     private val binding get() = _binding!!
@@ -74,22 +77,13 @@ class PokemonDetailFragment : Fragment() {
     // Renderizar estadísticas del Pokémon
     private fun renderStats(pokemonDetail: PokemonDetail) {
 
-
-
-        val statMap = pokemonDetail.stats.associateBy { statItem -> statItem.stat.name }
-        val tvStatHp = binding.tvStatHp
-        val tvStatAttack = binding.tvStatAttack
-        val tvStatDefense = binding.tvStatDefense
-        val tvStatSpAttack = binding.tvStatSpAttack
-        val tvStatSpeed = binding.tvStatSpeed
-        val tvStatSpDefense = binding.tvStatSpDefense
-
-        tvStatHp.text = "${statMap["hp"]?.base_stat ?: "-"}"
-        tvStatAttack.text = "${statMap["attack"]?.base_stat ?: "-"}"
-        tvStatDefense.text = "${statMap["defense"]?.base_stat ?: "-"}"
-        tvStatSpAttack.text = "${statMap["special-attack"]?.base_stat ?: "-"}"
-        tvStatSpDefense.text = "${statMap["special-defense"]?.base_stat ?: "-"}"
-        tvStatSpeed.text = "${statMap["speed"]?.base_stat ?: "-"}"
+    val statMap = pokemonDetail.stats.associateBy { pokemonDetail.name }
+    binding.tvStatHp.text = "${statMap["hp"]?.baseStat ?: "-"}"
+    binding.tvStatAttack.text = "${statMap["attack"]?.baseStat ?: "-"}"
+    binding.tvStatDefense.text = "${statMap["defense"]?.baseStat ?: "-"}"
+    binding.tvStatSpAttack.text = "${statMap["special-attack"]?.baseStat ?: "-"}"
+    binding.tvStatSpDefense.text = "${statMap["special-defense"]?.baseStat ?: "-"}"
+    binding.tvStatSpeed.text = "${statMap["speed"]?.baseStat ?: "-"}"
 
     }
 

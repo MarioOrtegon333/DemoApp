@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapp.databinding.ItemPokemonBinding
-import com.example.demoapp.presentation.ui.pokemonlist.Pokemon
+import com.example.demoapp.domain.model.Pokemon
 import com.squareup.picasso.Picasso
 
 

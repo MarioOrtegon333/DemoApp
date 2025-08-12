@@ -4,6 +4,8 @@ plugins {
 
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
+    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 
@@ -49,16 +51,16 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
+    // Hilt dependencies
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
 
-    // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
 
-
-    // Add the dependencies for any other desired Firebase products
-    // https://firebase.google.com/docs/android/setup#available-libraries
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
