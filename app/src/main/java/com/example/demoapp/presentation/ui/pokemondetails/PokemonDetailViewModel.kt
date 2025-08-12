@@ -33,5 +33,3 @@ class PokemonDetailViewModel @Inject constructor(
         }
     }
 }
-
-// ...existing code...

@@ -19,7 +19,6 @@ class PokedexViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
     private var offset = 0
     private val limit = 20
-    private val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
 
     fun loadPokemons() {
         _isLoading.value = true
@@ -43,5 +42,3 @@ class PokedexViewModel @Inject constructor(
         loadPokemons()
     }
 }
-
-// ...existing code...

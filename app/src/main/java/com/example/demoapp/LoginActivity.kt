@@ -66,6 +66,16 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         }
+
+        viewModel.errorMessage.observe(this) { errorMsg ->
+            if (!errorMsg.isNullOrEmpty()) {
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.auth_error_message))
+                    .setMessage(errorMsg)
+                    .setPositiveButton(getString(R.string.text_ok)) { dialog, _ -> dialog.dismiss() }
+                    .show()
+            }
+        }
     }
 
     //Eventos del Activity

@@ -1,7 +1,6 @@
 package com.example.demoapp.presentation.ui.pokemonlist
 
 
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +8,16 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapp.R
 import com.example.demoapp.databinding.FragmentPokedexBinding
-import com.example.demoapp.presentation.ui.pokemonlist.adapter.PokemonAdapter
 import com.example.demoapp.domain.model.Pokemon
+import com.example.demoapp.presentation.ui.pokemonlist.adapter.PokemonAdapter
 import com.example.demoapp.utils.SessionManager
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
@@ -55,9 +54,9 @@ class PokedexFragment : Fragment() {
 
     private fun showWelcomeDialog(onOk: (() -> Unit)? = null) {
         AlertDialog.Builder(requireContext())
-            .setTitle("¡Bienvenido a la Pokédex!")
-            .setMessage("Explora todos los Pokémon disponibles. ¡Diviértete!")
-            .setPositiveButton("OK") { dialog, _ ->
+            .setTitle(getString(R.string.pokedex_welcome_title))
+            .setMessage(getString(R.string.pokedex_welcome_subtitle))
+            .setPositiveButton(getString(R.string.text_ok)) { dialog, _ ->
                 dialog.dismiss()
                 onOk?.invoke()
             }

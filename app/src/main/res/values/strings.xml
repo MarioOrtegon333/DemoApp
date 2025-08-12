@@ -9,6 +9,10 @@
     <string name="dialog_message_close_session">¿Seguro que deseas cerrar sesión?</string>
     <string name="text_yes">Sí</string>
     <string name="text_no">No</string>
+    <string name="text_ok">OK</string>
+    <string name="pokedex_welcome_title">¡Bienvenido a la Pokédex!</string>
+    <string name="pokedex_welcome_subtitle">Explora todos los Pokémon disponibles. ¡Diviértete!</string>
+    <string name="auth_error_message">Error de autenticación</string>
 
 
 </resources>
