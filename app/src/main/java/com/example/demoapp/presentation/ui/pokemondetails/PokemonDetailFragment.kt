@@ -77,7 +77,7 @@ class PokemonDetailFragment : Fragment() {
     // Renderizar estadísticas del Pokémon
     private fun renderStats(pokemonDetail: PokemonDetail) {
 
-    val statMap = pokemonDetail.stats.associateBy { pokemonDetail.name }
+    val statMap = pokemonDetail.stats.associateBy { it.name }
     binding.tvStatHp.text = "${statMap["hp"]?.baseStat ?: "-"}"
     binding.tvStatAttack.text = "${statMap["attack"]?.baseStat ?: "-"}"
     binding.tvStatDefense.text = "${statMap["defense"]?.baseStat ?: "-"}"
