@@ -18,6 +18,8 @@
 
             val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
             setSupportActionBar(toolbar)
+            toolbar.setTitleTextColor(android.graphics.Color.WHITE)
+            toolbar.navigationIcon?.setTint(android.graphics.Color.WHITE)
 
             val isLoggedIn = SessionManager.isLoggedIn(this)
 
@@ -44,11 +46,13 @@
             )
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
+            // Cambia el color del icono del menú de hamburguesa a blanco
+            toggle.drawerArrowDrawable.color = android.graphics.Color.WHITE
 
                 // Mostrar nombre de usuario en el Drawer
             val headerView = navigationView.getHeaderView(0)
             val tvHeaderTitle = headerView.findViewById<TextView>(R.id.tvHeaderTitle)
-            val username = com.example.demoapp.utils.SessionManager.getUsername(this) ?: "Usuario"
+            val username = SessionManager.getUsername(this) ?: "Usuario"
             tvHeaderTitle.text = username
 
             navController?.let {
@@ -66,14 +70,28 @@
                         true
                     }
                     R.id.nav_logout -> {
-                            // Limpiar sesión y navegar a LoginActivity
-                            com.example.demoapp.utils.SessionManager.clearSession(this)
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            finish()
-                            true
+
+                        // Limpiar sesión y navegar a LoginActivity
+                        showLogoutConfirmation()
+                        true
                     }
                     else -> false
                 }
             }
+        }
+
+        private fun showLogoutConfirmation() {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Cerrar sesión")
+                .setMessage("¿Seguro que deseas cerrar sesión?")
+                .setPositiveButton("Sí") { _, _ ->
+                    SessionManager.clearSession(this)
+                    // Lanzar LoginActivity y terminar la actividad actual
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("No") { _, _ -> }
+                .show()
         }
     }
