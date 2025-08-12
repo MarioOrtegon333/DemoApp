@@ -1,5 +1,7 @@
-package com.pokedex.data
+package com.example.demoapp.data.remote.api
 
+import com.example.demoapp.data.PokemonDetailResponse
+import com.example.demoapp.data.PokemonListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

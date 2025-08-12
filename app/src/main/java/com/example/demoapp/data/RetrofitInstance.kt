@@ -1,5 +1,7 @@
-package com.pokedex.data
+package com.example.demoapp.data
 
+import com.example.demoapp.data.remote.api.PokeApiService
+import com.example.demoapp.utils.ApiConstants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

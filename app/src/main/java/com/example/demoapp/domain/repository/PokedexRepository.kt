@@ -1,8 +1,8 @@
-package com.pokedex.data
+package com.example.demoapp.domain.repository
 
-import com.pokedex.data.RetrofitInstance
-import com.pokedex.data.PokemonListResponse
-import com.pokedex.data.PokemonDetailResponse
+import com.example.demoapp.data.RetrofitInstance
+import com.example.demoapp.data.PokemonListResponse
+import com.example.demoapp.data.PokemonDetailResponse
 
 class PokedexRepository {
     suspend fun getPokemonList(offset: Int = 0, limit: Int = 20): PokemonListResponse {

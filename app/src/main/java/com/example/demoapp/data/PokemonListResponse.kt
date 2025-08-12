@@ -1,4 +1,4 @@
-package com.pokedex.data
+package com.example.demoapp.data
 
 data class PokemonListResponse(
     val count: Int,

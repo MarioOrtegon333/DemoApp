@@ -1,4 +1,4 @@
-package com.pokedex.ui
+package com.example.demoapp.presentation.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData

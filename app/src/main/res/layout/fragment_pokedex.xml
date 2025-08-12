@@ -9,17 +9,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPokedex"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/paginationLayout"
-            tools:listitem="@layout/item_pokemon"
-            GridLayoutManager.spanCount="2"
-            android:layout_margin="16dp"/>
+            app:layout_constraintBottom_toTopOf="@id/paginationLayout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPokedex"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_pokemon"
+                GridLayoutManager.spanCount="2"
+                android:layout_margin="16dp"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressLoader"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:indeterminate="true"
+            app:indicatorColor="@color/blue_macropay"
+            app:indicatorDirectionCircular="clockwise"
+            app:indicatorInset="8dp"
+            app:indicatorSize="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackColor="@color/gray_light" />
 
         <LinearLayout
             android:id="@+id/paginationLayout"

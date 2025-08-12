@@ -1,13 +1,14 @@
-package com.pokedex.ui
+package com.example.demoapp.presentation.ui.pokemonlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.demoapp.domain.repository.PokedexRepository
 import kotlinx.coroutines.launch
 
 class PokedexViewModel : ViewModel() {
-    private val repository = com.pokedex.data.PokedexRepository()
+    private val repository = PokedexRepository()
     private val _pokemonList = MutableLiveData<List<Pokemon>>()
     val pokemonList: LiveData<List<Pokemon>> = _pokemonList
     private val _isLoading = MutableLiveData<Boolean>()
@@ -18,6 +19,7 @@ class PokedexViewModel : ViewModel() {
 
     fun loadPokemons() {
         _isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.getPokemonList(offset, limit)

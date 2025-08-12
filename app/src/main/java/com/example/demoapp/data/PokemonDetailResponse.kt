@@ -1,8 +1,8 @@
-package com.pokedex.data
+package com.example.demoapp.data
 
 import com.google.gson.annotations.SerializedName
-import com.pokedex.data.models.OtherSprites
-import com.pokedex.data.models.StatsItem
+import com.example.demoapp.data.models.OtherSprites
+import com.example.demoapp.data.models.StatsItem
 
 data class PokemonDetailResponse(
     val id: Int,

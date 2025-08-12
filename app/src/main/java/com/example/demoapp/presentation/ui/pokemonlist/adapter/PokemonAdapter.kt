@@ -1,4 +1,4 @@
-package com.pokedex.ui.adapter
+package com.example.demoapp.presentation.ui.pokemonlist.adapter
 
 import android.os.Build
 import android.util.Log
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapp.databinding.ItemPokemonBinding
-import com.pokedex.ui.Pokemon
+import com.example.demoapp.presentation.ui.pokemonlist.Pokemon
 import com.squareup.picasso.Picasso
 
 

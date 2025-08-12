@@ -1,14 +1,15 @@
-package com.pokedex.ui
+package com.example.demoapp.presentation.ui.pokemondetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.pokedex.data.models.StatsItem
+import com.example.demoapp.domain.repository.PokedexRepository
+import com.example.demoapp.data.models.StatsItem
 import kotlinx.coroutines.launch
 
 class PokemonDetailViewModel : ViewModel() {
-    private val repository = com.pokedex.data.PokedexRepository()
+    private val repository = PokedexRepository()
     private val _pokemonDetail = MutableLiveData<PokemonDetail>()
     val pokemonDetail: LiveData<PokemonDetail> = _pokemonDetail
     private val _isLoading = MutableLiveData<Boolean>()

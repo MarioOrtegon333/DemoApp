@@ -21,4 +21,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue_macropay">#0033A0</color>
+
+    <color name="gray_light">#D3D3D3</color>
 </resources>

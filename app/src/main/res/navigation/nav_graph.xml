@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/pokedexFragment">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.pokedex.ui.LoginFragment"
-        android:label="Login" />
+    <!-- Eliminado loginFragment, ahora el inicio es pokedexFragment -->
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.pokedex.ui.MainFragment"
+        android:name="com.example.demoapp.presentation.ui.MainFragment"
         android:label="Principal" />
 
     <fragment
         android:id="@+id/pokedexFragment"
-        android:name="com.pokedex.ui.PokedexFragment"
+        android:name="com.example.demoapp.presentation.ui.pokemonlist.PokedexFragment"
         android:label="Pokedex" />
 
     <fragment
         android:id="@+id/pokemonDetailFragment"
-        android:name="com.pokedex.ui.PokemonDetailFragment"
+        android:name="com.example.demoapp.presentation.ui.pokemondetails.PokemonDetailFragment"
         android:label="Detalle Pokémon">
         <argument
             android:name="pokemonId"

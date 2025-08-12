@@ -2,12 +2,35 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
     <ScrollView
+        android:id="@+id/svPokemonDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressLoaderDetail"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:visibility="gone"
+                android:indeterminate="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:indicatorColor="@color/blue_macropay"
+                app:trackColor="@color/gray_light"
+                app:indicatorSize="64dp"
+                app:indicatorInset="8dp"
+                app:indicatorDirectionCircular="clockwise" />
 
             <ImageView
                 android:id="@+id/ivPokemonImage"
@@ -63,7 +86,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivPokemonImage" />
 
-            <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
                 android:id="@+id/cardDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -216,7 +239,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
                 android:id="@+id/cardStats"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

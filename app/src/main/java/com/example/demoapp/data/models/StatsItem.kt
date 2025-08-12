@@ -1,4 +1,4 @@
-package com.pokedex.data.models
+package com.example.demoapp.data.models
 
 data class StatsItem(
     val base_stat: Int,
